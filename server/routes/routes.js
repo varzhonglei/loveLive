@@ -1,7 +1,21 @@
-var UserModel = require('../mongoose/model/UserModel');
+var UserModel = require('../mongoose/users/UserModel');
 var path = require('path');
 
 module.exports = function (app){
+
+app.get('/getUserInfo', function(req, res){
+    var resObj = req.session.user;
+    if( resObj ){
+        res.send(JSON.stringify(resObj))
+    }else{
+        res.send('noSession')
+    }
+})
+
+app.post('/fixInfoReq', function(req, res){
+    console.log(req.body.baseUserInfo)
+    res.send('success');
+})
 
 app.post('/signup', function (req, res) {
     var _user = req.body.user;
@@ -34,25 +48,29 @@ app.post('/login', function (req, res) {
     var _account = req.body.account,
         _password = req.body.password;
     UserModel.findOne({ account: _account }, function (err, hasUser){
+        var resObj = {};
         if(hasUser){
             hasUser.comparePassword(_password, function (isMatch){
                 if(isMatch){
                     req.session.user = hasUser;
-                    res.send('loginSuccess')
+                    resObj.userInfo = hasUser;
+                    resObj.loginState = 'loginSuccess';
                 }else{
-                    res.send('密码错误')
+                    resObj.loginState = '密码错误';
                 }
+                res.send(JSON.stringify(resObj))
             })
         }else{
-            res.send('账号未注册')
+            resObj.loginState = '账号未注册'
+            res.send(JSON.stringify(resObj))
         }
     })
 })
 
-app.get('*', function (req, res) {
-    console.log('收到一个未匹配路由')
-    res.sendFile(path.join(__dirname,'../../loveLive/index.html'))
-})
+// app.get('*', function (req, res) {
+//     console.log('收到一个未匹配路由：')
+//     res.sendFile(path.join(__dirname,'../../loveLive/index.html'))
+// })
 
 }
 

@@ -8,5 +8,8 @@ export const signup = (data) => axios.post( baseUrl + 'signup', data)
 
 export const login = (data) => axios.post( baseUrl + 'login', data)
 
-export const test = (data) => axios.post( baseUrl + 'test', data)
+export const fixInforReq = (data) => axios.post( baseUrl + 'fixInfoReq', data)
 
+export const getUserInfo = () => axios.get( baseUrl + 'getUserInfo' )
+
+export const test = (data) => axios.post( baseUrl + 'test', data)

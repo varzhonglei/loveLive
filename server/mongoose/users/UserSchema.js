@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var { md5, generateSalt } = require('../../common/md5.js');
+var dongTaiSchema = require('./childrens/dongTaiSchema');
 
 
 var UserSchema = new mongoose.Schema({
@@ -7,6 +8,10 @@ var UserSchema = new mongoose.Schema({
     password: String,
     sex: String,
     years: String,
+    userName: {
+        type: String,
+        default: '未知用户'
+    },
     meta: {
         creatAt:{
             type: Date,
@@ -16,7 +21,8 @@ var UserSchema = new mongoose.Schema({
             type: Date,
             default: Date.now()
         }
-    }
+    },
+    dongTai: [dongTaiSchema]
 })
 
 UserSchema.pre('save', function(next) {

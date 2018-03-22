@@ -2,25 +2,31 @@
     <div class="slider-content-wrap">
         <div class='userHeadImgWrap'>
             <img class='userHeadImg' src="../../images/bar.jpg" alt="用户头像">
+            <div class='user-name'>{{userInfo.userName}}</div>
         </div>
         <ul>
             <li class="sidebar-item" @click='toFixInfo'>完善信息</li>
-            <li class="sidebar-item">选项2</li>
-            <li class="sidebar-item">选项3</li>
-            <li class="sidebar-item">选项4</li>
+            <li class="sidebar-item">相册</li>
+            <li class="sidebar-item">消息</li>
+            <li class="sidebar-item">关于loveLive</li>
+            <li class="sidebar-item">退出登陆</li>
         </ul>
     </div>
 </template>
 
 <script>
-    
     export default{
         data(){
             return {}
         },
+        computed: {
+            userInfo(){
+                return this.$store.state.userInfo;
+            }
+        },
         methods:{
             toFixInfo () {
-                console.log(1)
+                this.$router.push('./fixInfo')
             }
         }
     }
@@ -40,10 +46,17 @@
         padding: 20px 20px 20px 20px;
     }
     .userHeadImg{
-        width: 50px;
-        height: 50px;
+        width: 7rem;
+        height: 7rem;
         border-radius: 50%;
     }
+    .user-name{
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 3.4rem;
+    }
+
     .sidebar-item{
         height: 40px;
         margin: 5px 0px;

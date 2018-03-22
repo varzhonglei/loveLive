@@ -19,34 +19,57 @@
                 <div><router-link to='/signup'>注册账号</router-link></div>
             </div>
         </form>
+        <alert v-show='mdState' @closeMd='closeMd' :message='message'></alert>
     </div>
 </template>
 
 <script>
+    import alert from '../../components/alert.vue'
     import { login } from '../../getData/getData.js'
+    import { mapMutations } from 'vuex'
+
     export default {
         data(){
             return {
                 account: '',
-                password: ''
+                password: '',
+                mdState: false,
+                message: 'something from father'
             }
         },
+        components: { alert },
         methods:{
+            ...mapMutations(['SET_USER_INFO']),
             handLogin () {
-                login({account: this.account, password: this.password}).then(( val ) =>{ 
-                    if (val.data === 'loginSuccess') {
+                login({account: this.account, password: this.password}).then(( res ) =>{ 
+                    //axios自动帮你把返回值转化为对象，不用调用 JSON.parse了
+                    var val = res.data;
+                    if (val.loginState === 'loginSuccess') {
+                        this.$store.commit('SET_USER_INFO', val.userInfo);
                         this.$router.push({path: '/'})
                     }else {
-                        alert(val.data)
+                        this.message = val.loginState;
+                        this.mdState = true;
                     }
                  })
+            },
+            closeMd (){
+                this.mdState = false;
             }
         }
     }   
 </script>
 
 <style scoped>
+h2{
+    font-size: 4rem;
+}
+h4{
+    font-size: 3.4rem;
+}
+
 .login-wrapper{
+    font-size: 3rem;
     height: 100%;
     background-color: rgba(112, 128, 144, 0.5);
     overflow: hidden; /*触发bfc解决margin塌陷问题*/

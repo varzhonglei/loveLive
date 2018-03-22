@@ -43,6 +43,6 @@
         border-bottom: 4px solid #fff;  
         background-color: #fff;  
         padding: 4px 0;  
-        background-clip:content-box;
+        background-clip: content-box;
     }
 </style>

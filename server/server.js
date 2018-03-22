@@ -18,6 +18,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
     secret: 'loveliveLovelive',
+    name: 'connect.sid',
+    resave: true,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure:   false,
+        maxAge:   10 * 360 * 24 * 60 * 60 * 1000
+    },
     store: new mongoStore({
         url: dbUrl,
         collection: 'sessions'

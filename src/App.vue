@@ -4,8 +4,36 @@
 </template>
 
 <script>
-  export default {
+  import { getUserInfo } from './getData/getData'
+  import { mapMutations } from 'vuex'
 
+  export default {
+        created(){
+            const loginCheck = (to, from, next) => {
+                if(this.$store.state.isLogin) {
+                    next()
+                }else if(to.path == '/login' || to.path == '/signup'){
+                    next()
+                }
+                else{
+                    this.$router.push({path: '/login'})
+                }
+            }
+            // this.$router.beforeEach(loginCheck);
+            // 前端开发是暂时不开启该功能, 路由守卫，是否有登陆信息
+
+            getUserInfo().then( (res) => {
+                var val = res.data;
+                if ( val === 'noSession' ){
+                    this.$router.push({path: '/login'})
+                }else{
+                    this.$store.commit('SET_USER_INFO', val);
+                }
+            } )
+        },
+        methods: {
+            ...mapMutations(['SET_USER_INFO'])
+        }
   }
 </script>
 
