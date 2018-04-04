@@ -1,7 +1,7 @@
 <template>
     <div class="slider-content-wrap">
         <div class='userHeadImgWrap'>
-            <img class='userHeadImg' src="../../images/bar.jpg" alt="用户头像">
+            <img class='userHeadImg' :src="userInfo.avatarUrl" alt="用户头像">
             <div class='user-name'>{{userInfo.userName}}</div>
         </div>
         <ul>
@@ -9,24 +9,49 @@
             <li class="sidebar-item">相册</li>
             <li class="sidebar-item">消息</li>
             <li class="sidebar-item">关于loveLive</li>
-            <li class="sidebar-item">退出登陆</li>
+            <li class="sidebar-item" @click='handSignout'>退出登陆</li>
         </ul>
+        <alert v-show='isShowModel' @closeMd='closeMd' :message='signOutMessage'></alert>
     </div>
 </template>
 
 <script>
+
+    import { signout } from '../../getData/getData.js'
+    import { setCookie } from '../../utils/utils.js'
+    import { mapMutations } from 'vuex'
     export default{
         data(){
-            return {}
+            return {
+                isShowModel: false,
+                signOutMessage: '登出失败'
+            }
         },
         computed: {
             userInfo(){
                 return this.$store.state.userInfo;
             }
         },
+
         methods:{
+            ...mapMutations(['SIGN_OUT']),
             toFixInfo () {
                 this.$router.push('./fixInfo')
+            },
+            handSignout (){
+                signout().then((val)=>{
+                    var message = val.data.message;
+                    if ( message === '登出成功' ){
+                        this.signOutMessage = message;
+                        this.isShowModel = true;
+                        setCookie('connect.sid', '', -1);
+                        this.$store.commit('SIGN_OUT');
+                        this.$router.push('./login');
+                    }
+                })
+            },
+            closeMd(){
+                this.isShowModel = false
             }
         }
     }
@@ -35,7 +60,7 @@
 
 <style>
     .slider-content-wrap{
-        width: 18rem;
+        width: 60%;
         background-color: #fafafa;
         position: fixed;
         top: 0;

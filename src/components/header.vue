@@ -1,10 +1,13 @@
 <template>
     <div class='nav'>
-        <div><router-link tag='span' to='/'>主页</router-link></div>
-        <ul>
+        <ul class='nav-left'>
+            <li></li>
+            <li><router-link tag='span' to='/'>主页</router-link></li>
+        </ul>
+        <ul class="nav-right">
             <router-link tag='li' to='/'>主页</router-link>
-            <router-link tag='li'to='/friends'>好友</router-link>
-            <router-link tag='li'to='/search'>搜索</router-link>
+            <router-link tag='li' to='/friends'>好友</router-link>
+            <router-link tag='li' to='/search'>搜索</router-link>
         </ul>
     </div>
 </template>
@@ -18,7 +21,7 @@
     }
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
     /*导航栏样式*/
     .nav{
         height: 50px;
@@ -26,19 +29,23 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 100%
+        width: 100%;
+        z-index: 10;
     }
     .nav::after{
         content: '';
         display: block;
         clear: both;
     }
-    .nav ul{
+    .nav .nav-right{
         float: right;
+        display: flex;
+        width: 50%;
     }
-    .nav ul li{
+    
+    .nav .nav-right li{
+        flex: 1 1 40px;
         float: right;
-        width: 40px;
         height: 40px;
         text-align: center;
         line-height: 40px;
@@ -46,20 +53,21 @@
         border-radius: 30%;
         color: #fff;
     }
-    .nav ul li:first-child{
-        margin-right: 30px;
-    }
-    .nav div{
+
+    .nav .nav-left{
+        display: flex;
         height: 40px;
         text-align: center;
         line-height: 40px;
         float: left;
-        width: 50px;
-        margin: 5px 5px 5px 50px;
+        width: 29%;
+        margin: 5px 0;
         border-radius: 30%;
-        font-size: 24px;
     }
-    .nav div span{
+    .nav-left li{
+        flex: 1;
+    }
+    .nav .nav-left span{
         color: #fff;
     }
 </style>

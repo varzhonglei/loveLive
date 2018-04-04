@@ -20,16 +20,16 @@
                 }
             }
             // this.$router.beforeEach(loginCheck);
-            // 前端开发是暂时不开启该功能, 路由守卫，是否有登陆信息
+            // 路由守卫，是否有登陆信息，是否限定游客的浏览范围
 
             getUserInfo().then( (res) => {
                 var val = res.data;
-                if ( val === 'noSession' ){
+                if ( val.type ){
                     this.$router.push({path: '/login'})
                 }else{
-                    this.$store.commit('SET_USER_INFO', val);
+                    this.$store.commit('SET_USER_INFO', val.data);
                 }
-            } )
+            })
         },
         methods: {
             ...mapMutations(['SET_USER_INFO'])
@@ -38,18 +38,17 @@
 </script>
 
 <style lang='scss'>
+
+
+
 body, div, span, header, footer, nav, section, aside, article,
   ul, dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea,
   button, input, select, figure, figcaption, {
     padding: 0;
     margin: 0;
     list-style: none;
-    font-style: normal;
     text-decoration: none;
     border: none;
-    color: #333;
-    font-weight: normal;
-    font-family: "Microsoft Yahei";
     box-sizing: border-box;
     -webkit-tap-highlight-color:transparent;
     -webkit-font-smoothing: antialiased;
@@ -63,78 +62,84 @@ body{
     bottom: 0;
     left: 0;
     right: 0;
+    font-size: 3rem;
+    color: #333;
+    font-weight: normal;
+    font-family: "Microsoft Yahei";
+    font-style: normal;
 }
 
+
 @media only screen and (max-width: 1080px), only screen and (max-device-width:1080px) {
-    html,body {
+    html {
     font-size:16.875px;
     }
  }
  @media only screen and (max-width: 960px), only screen and (max-device-width:960px) {
-    html,body {
+    html {
     font-size:15px;
     }
  }
  @media only screen and (max-width: 800px), only screen and (max-device-width:800px) {
-    html,body {
+    html {
     font-size:12.5px;
     }
  }
  @media only screen and (max-width: 720px), only screen and (max-device-width:720px) {
-    html,body {
+    html {
     font-size:11.25px;
     }
  }
  @media only screen and (max-width: 640px), only screen and (max-device-width:640px) {
-    html,body {
+    html {
     font-size:10px;
     }
  }
  @media only screen and (max-width: 600px), only screen and (max-device-width:600px) {
-    html,body {
+    html {
     font-size:9.375px;
     }
  }
  @media only screen and (max-width: 540px), only screen and (max-device-width:540px) {
-    html,body {
+    html {
     font-size:8.4375px;
     }
  }
  @media only screen and (max-width: 480px), only screen and (max-device-width:480px) {
-    html,body {
+    html {
     font-size:7.5px;
     }
  }
  @media only screen and (max-width: 414px), only screen and (max-device-width:414px) {
-    html,body {
+    html {
     font-size:6.46875px;
     }
  }
  @media only screen and (max-width: 400px), only screen and (max-device-width:400px) {
-    html,body {
+    html {
     font-size:6.25px;
     }
  }
  @media only screen and (max-width: 375px), only screen and (max-device-width:375px) {
-    html,body {
+    html{
     font-size:5.859375px;
     }
  }
  @media only screen and (max-width: 360px), only screen and (max-device-width:360px) {
-    html,body {
+    html {
     font-size:5.625px;
     }
  }
 
-    @media only screen and (max-width: 320px), only screen and (max-device-width:320px) {
-        html,body {
-        font-size:5px;
-        }
+@media only screen and (max-width: 320px), only screen and (max-device-width:320px) {
+    html {
+    font-size:5px;
     }
+}
 
-    @media only screen and (max-width: 240px), only screen and (max-device-width:240px) {
-        html,body {
-        font-size:3.75px;
-        }
+@media only screen and (max-width: 240px), only screen and (max-device-width:240px) {
+    html {
+    font-size:3.75px;
     }
+}
 </style>

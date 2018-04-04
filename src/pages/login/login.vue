@@ -24,7 +24,6 @@
 </template>
 
 <script>
-    import alert from '../../components/alert.vue'
     import { login } from '../../getData/getData.js'
     import { mapMutations } from 'vuex'
 
@@ -37,7 +36,6 @@
                 message: 'something from father'
             }
         },
-        components: { alert },
         methods:{
             ...mapMutations(['SET_USER_INFO']),
             handLogin () {

@@ -3,11 +3,18 @@ import square from '../pages/home/child/square'
 import actives from '../pages/home/child/actives'
 import random from '../pages/home/child/random'
 
+
+const newDongTai = r => require.ensure([], () => r(require('../pages/newDongTai/newDongTai')), 'square')
 const friends = r => require.ensure([], () => r(require('../pages/friends/friends')), 'friends')
+const chat = r => require.ensure([], () => r(require('../pages/chat/chat')), 'friends')
+const userDetailInfo = r => require.ensure([], () => r(require('../pages/userDetailInfo/userDetailInfo')), 'friends')
+
 const search = r => require.ensure([], () => r(require('../pages/search/search')), 'search')
 const login = r => require.ensure([], () => r(require('../pages/login/login')), 'login')
 const signup = r => require.ensure([], () => r(require('../pages/signup/signup')), 'login')
 const fixInfo = r => require.ensure([], () => r(require('../pages/fixInfo/fixInfo')), 'fixInfo')
+const photoAlbum = r => require.ensure([], () => r(require('../pages/photoAlbum/photoAlbum')), 'photoAlbum')
+
 
 var routes = [
     {
@@ -58,6 +65,24 @@ var routes = [
     {
       path: '/signup',
       component: signup
+    },
+
+    //
+    {
+      path: '/photoAlbum',
+      component: photoAlbum
+    },
+    {
+      path: '/chat/:user_id',
+      component: chat
+    },
+    {
+      path: '/userDetailInfo/:user_id',
+      component: userDetailInfo
+    },
+    {
+      path: '/newDongTai',
+      component: newDongTai
     }
   ]
 

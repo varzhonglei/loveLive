@@ -17,9 +17,14 @@
         <div class='baseInfo'>
             <h2>基础资料</h2>
             <ul>
-                <li v-bind:class='{itemWrap:true, checked: itemState.editing === "sex"}'>   
+                <li v-bind:class='{itemWrap:true, checked: itemState.editing === "userName"}'>   
+                    <label>昵称</label>
+                    <div class='itemContent' @click='checkItem("userName")'>{{baseUserInfo.userName}}</div>
+                    <input class='itemInp' type="text" v-model='baseUserInfo.userName' v-focus='itemState.editing === "userName"' @blur='leaveItem'>
+                </li>
+                <li v-bind:class='{itemWrap:true}'>   
                     <label>性别</label>
-                    <div class='itemContent' @click='checkItem("sex")'>{{baseUserInfo.sex}}</div>
+                    <div class='itemContent'>{{baseUserInfo.sex}}</div>
                     <input class='itemInp' type="text" v-model='baseUserInfo.sex' v-focus='itemState.editing === "sex"' @blur='leaveItem'>
                 </li>
                 <li v-bind:class='{itemWrap:true, checked: itemState.editing === "age"}'>   
@@ -42,10 +47,10 @@
                     <div class='itemContent' @click='checkItem("education")'>{{baseUserInfo.education}}</div>
                     <input class='itemInp' type="text" v-model='baseUserInfo.education' v-focus='itemState.editing === "education"' @blur='leaveItem'>
                 </li>
-                <li v-bind:class='{itemWrap:true, checked: itemState.editing === "xingZuo"}'>   
+                <li v-bind:class='{itemWrap:true, checked: itemState.editing === "constellation"}'>   
                     <label>星座</label>
-                    <div class='itemContent' @click='checkItem("xingZuo")'>{{baseUserInfo.xingZuo}}</div>
-                    <input class='itemInp' type="text" v-model='baseUserInfo.xingZuo' v-focus='itemState.editing === "xingZuo"' @blur='leaveItem'>
+                    <div class='itemContent' @click='checkItem("constellation")'>{{baseUserInfo.constellation}}</div>
+                    <input class='itemInp' type="text" v-model='baseUserInfo.constellation' v-focus='itemState.editing === "constellation"' @blur='leaveItem'>
                 </li>
                 <li v-bind:class='{itemWrap:true, checked: itemState.editing === "job"}'>   
                     <label>工作</label>
@@ -81,14 +86,15 @@
         data() {
             return {
                 baseUserInfo: {
-                    sex: '男',
+                    sex: '',
                     age: '18',
                     height: '178',
-                    weight: '40kg',
+                    weight: '65kg',
                     education: '本科',
-                    xingZuo: '天蝎',
-                    job: '程序员',
-                    city: '成都'
+                    constellation: '天蝎',
+                    job: 'FE',
+                    city: '香港',
+                    userName: '以上性息获取中'
                 },
                 itemState: {
                     editing: ''
@@ -98,6 +104,10 @@
             }
         },
         components: { alert },
+        created(){
+            let userInfo = this.$store.state.userInfo;
+            this.baseUserInfo = Object.assign({}, this.baseUserInfo, userInfo);
+        },
         methods: {
             checkItem(item) {
                 this.itemState.editing = item
@@ -115,6 +125,7 @@
                 fixInforReq({baseUserInfo: this.baseUserInfo}).then((val)=>{
                     if(val.data == 'success'){
                         this.message = '修改成功';
+                        this.$store.commit('FIX_USER_INFO', this.baseUserInfo);
                     }else {
                         this.message = '修改失败';
                     }
@@ -141,7 +152,7 @@
     position: fixed;
     bottom: 1rem;
     left: 50%;
-    margin-left: -2.5rem;
+    transform: translate(-50%);
     width: 6.5em;
     height: 3rem;
 }
@@ -220,32 +231,5 @@ h2{
 }
 
 
-/*返回按钮样式*/
-.backBtnWrap{
-    position: absolute;
-    top: 0;
-    padding: 1rem;
-    z-index: 100;
-}
-.backBtnWrap2{
-    padding: 2px;
-}
-.backBtnWrap2::after{
-    content: '';
-    display: block;
-    clear: both;
-}
-.backBtnWrap svg{
-    float: left;
-    width: 2rem;
-    height: 2rem;
-}
-.backBtnWrap .backText{
-    float: left;
-    height: 2rem;
-    line-height: 2rem;
-    font-size: 3.4rem;
-    display: inline-block;
-}
     
 </style>

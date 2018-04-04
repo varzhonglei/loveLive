@@ -1,5 +1,7 @@
+require('babel-core/register');
 var express = require('express');
 var _ = require('underscore');
+var config = require('./config')
 
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -12,6 +14,11 @@ var dbUrl = 'mongodb://localhost/lovelive';
 mongoose.connect(dbUrl);
 
 var app = express();
+
+//允许跨越访问
+require('./routes/cors')(app) 
+
+
 app.use(express.static('../loveLive'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,13 +31,14 @@ app.use(session({
     cookie: {
         httpOnly: true,
         secure:   false,
-        maxAge:   10 * 360 * 24 * 60 * 60 * 1000
+        maxAge:   config.session.maxAge
     },
     store: new mongoStore({
         url: dbUrl,
         collection: 'sessions'
     })
 }))
+
 
 require('./routes/routes')(app)
 

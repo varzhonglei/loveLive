@@ -1,5 +1,5 @@
 <template>
-    <div ref="wrapper"> 
+    <div ref="wrapper" class='wrapper'> 
         <slot></slot> 
     </div>
 </template>
@@ -41,7 +41,9 @@
       /**
        * 列表的数据
        */
-      data:{},
+      data:{
+        default: ''
+      },
       /**
        * 是否派发滚动到底部的事件，用于上拉加载
        */
@@ -155,3 +157,12 @@
     }
   }
 </script>
+
+
+<style scoped>
+  
+.wrapper{
+  height: 100%;
+}
+
+</style>
