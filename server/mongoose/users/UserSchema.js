@@ -5,7 +5,10 @@ var Schema = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
 
 var UserSchema = new Schema({
-    account: String,
+    account: { 
+        type:String,
+        unique: true 
+    },
     password: String,
     sex: {
         type: String,

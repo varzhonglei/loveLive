@@ -10,7 +10,7 @@ var cookieParser = require('cookie-parser');
 var mongoose = require('mongoose');
 var mongoStore = require('connect-mongo')(session);
 
-var dbUrl = 'mongodb://localhost/lovelive';
+var dbUrl = 'mongodb://localhost:27017/lovelive';
 mongoose.connect(dbUrl);
 
 var app = express();
@@ -20,6 +20,7 @@ require('./routes/cors')(app)
 
 
 app.use(express.static('../loveLive'));
+//服务器提交数据json化
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -39,11 +40,14 @@ app.use(session({
     })
 }))
 
-
 require('./routes/routes')(app)
+
+
 
 var server = app.listen(3000, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log('Example app listening at http://%s:%s', host, port);
 });
+
+require('./websocket/websocket')(server)

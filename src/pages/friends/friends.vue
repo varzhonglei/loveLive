@@ -56,21 +56,17 @@
     import navComponent from '../../components/header.vue'
     import slider from '../../components/slider/slider.vue'
     import { getRelationList } from '../../getData/getData.js'
+    import { mapMutations } from 'vuex'
 
     export default { 
         data(){
             return {
-                friends: [
-                    { avatarUrl: '', userName: '', _id: '' },
-                    { avatarUrl: '', userName: '', _id: '' },
-                    { avatarUrl: '', userName: '', _id: '' },
-                    { avatarUrl: '', userName: '', _id: '' }
-                ],
+                friends: [],
                 metPersons: [                    
                     { avatarUrl: '', userName: '', _id: '' },
                     { avatarUrl: '', userName: '', _id: '' },
                     { avatarUrl: '', userName: '', _id: '' },
-                    { avatarUrl: '', userName: '', _id: '' }],
+                    { avatarUrl: '', userName: '', _id: '' } ],
                 blackList: [{ }, { },{ }, { }],
                 isShowFriends: true,
                 isShowMetPersons: true,
@@ -84,6 +80,7 @@
             })
         },
         methods:{
+            ...mapMutations(['SET_CHAT_MAN']),
             toggleList(type){
                 if( type === 'friends' ){
                     this.isShowFriends = !this.isShowFriends
@@ -94,7 +91,12 @@
                 }
             },
             openChat( other_id ){
-                this.$router.push('/chat/' + other_id)
+                var thePerson = this.friends.find(function(item){
+                        return item._id == other_id 
+                    })
+                //讲与谁聊天存入store，方便下个页面获取。也可以通过?key=val&key=val 查询串的方式拼接到ulr中
+                this.SET_CHAT_MAN(thePerson);
+                this.$router.push('/chat/' + other_id);
             }
         },
         components: { navComponent, slider }

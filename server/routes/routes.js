@@ -38,9 +38,8 @@ app.post('/login', function (req, res) {
             hasTheUser.comparePassword(_password, function (isMatch){
                 if(isMatch){
                     req.session.user_id = hasTheUser._id;
-                    resObj.userInfo = hasTheUser;
+                    resObj.userInfo = { ...hasTheUser._doc };
                     delete resObj.userInfo.password;
-                    console.log( resObj.userInfo )
                     resObj.loginState = 'loginSuccess';
                 }else{
                     resObj.loginState = '密码错误';

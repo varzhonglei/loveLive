@@ -6,6 +6,8 @@
 <script>
   import { getUserInfo } from './getData/getData'
   import { mapMutations } from 'vuex'
+  import io from 'socket.io-client'
+  import { baseUrl } from './config/env'
 
   export default {
         created(){
@@ -20,19 +22,23 @@
                 }
             }
             // this.$router.beforeEach(loginCheck);
-            // 路由守卫，是否有登陆信息，是否限定游客的浏览范围
+            // 路由守卫，检测是否有登陆信息，从而限定游客的浏览范围
 
             getUserInfo().then( (res) => {
                 var val = res.data;
+                //有type表示有误，可能是session无效了
                 if ( val.type ){
                     this.$router.push({path: '/login'})
                 }else{
-                    this.$store.commit('SET_USER_INFO', val.data);
+                    this.SET_USER_INFO(val.data);
+                    this.SET_SOCKET( io.connect(baseUrl) );  
+                    this.INIT_SOCKET();   
+                    this.RESET_SOCKET();      
                 }
             })
         },
         methods: {
-            ...mapMutations(['SET_USER_INFO'])
+            ...mapMutations(['SET_USER_INFO', 'SET_SOCKET', 'INIT_SOCKET', 'RESET_SOCKET'])
         }
   }
 </script>

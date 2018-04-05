@@ -1,7 +1,6 @@
 <template>
-    <div class='message-item-wrap'>
+    <div :class="{ 'message-item-wrap': true, 'my-msg': isMyMsg}">
         <div class='message-item-time'>{{msgItemTime}}</div>
-        <span>{{userName}}</span>
         <div class='avatar-wrap'>
             <img :src="avatarUrl" alt="用户头像">
         </div>
@@ -15,7 +14,7 @@
   export default {
     props: {
         avatarUrl: {
-            default: '/static/img/barsang.jpg',
+            default: '/static/img/bar.jpg',
             type: String
         },
         userName: {
@@ -26,6 +25,9 @@
         },
         msgItemContent: {
             default: ''
+        },
+        isMyMsg: {
+            default: false
         }
     },
     mounted() {
@@ -77,11 +79,26 @@
 }
 
 .message-item-content{
+    float: left;
     padding: 1rem;
     border-radius: 1rem;
     background: #fff;
     line-height: 120%;
 }
+
+.my-msg .message-item-content-wrapper{
+    padding-left: 0rem;
+    padding-right: 6.5rem;
+}
+.my-msg .message-item-content{
+    background: #8ECB5A;
+    float: right;
+}
+
+.my-msg .avatar-wrap{
+    float: right;
+}
+
 
 </style>
 

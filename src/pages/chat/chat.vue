@@ -11,15 +11,15 @@
 
         <div class='chat-head'>
             <div class='chat-name'>
-                <span>someone</span>
+                <span>{{getChatMan.userName}}</span>
             </div>
         </div>
 
         <div class='chat-content'>
-            <my-scroll>
-                <div>
+            <my-scroll :data='messages'>
+                <div class='need-min-height'>
                     <div v-for="item in messages">
-                        <msg :avatarUrl='item.avatarUrl' :msgItemContent='item.msgItemContent'></msg>
+                        <msg :avatarUrl='item.avatarUrl' :msgItemContent='item.msgItemContent' :isMyMsg='item._id == getOwnId'></msg>
                     </div> 
                 </div>
             </my-scroll>
@@ -33,7 +33,7 @@
                 </el-input>
             </div>
             <div class="msg-send-wrapper">
-                <el-button type="primary">发送</el-button> 
+                <el-button type="primary" @click='sendMsg'>发送</el-button> 
             </div>
         </div>
     </div>
@@ -43,26 +43,41 @@
 <script>
     import msg from '../../components/msg.vue'
     import myScroll from '../../components/scroll.vue'
+    import { mapMutations, mapGetters } from 'vuex'
 
     export default { 
         data(){
             return {
                 textarea: '',
-                messages: [ { avatarUrl: "/static/img/barsang.jpg", userName: 'haha', msgItemContent: `
-                    绥芬河市疾控黑色的开发和客户数据库的发挥可接受的发挥快速减肥后开始环境科斯蒂哈发后开始环境科斯后开始环境科斯后开始环境科斯
-                `, msgItemTime: 'hahaha' },
-                            { avatarUrl: "/static/img/barsang.jpg", userName: 'haha', msgItemContent: "sfsf", msgItemTime: 'hahaha' } ,
-                            { avatarUrl: "/static/img/barsang.jpg", userName: 'haha', msgItemContent: "sfsf", msgItemTime: 'hahaha' } ,
-                            { avatarUrl: "/static/img/barsang.jpg", userName: 'haha', msgItemContent: "sfsf", msgItemTime: 'hahaha' } ,
-                            { avatarUrl: "/static/img/barsang.jpg", userName: 'haha', msgItemContent: "sf的发挥快速减肥后开始环境科斯蒂哈发后开始环境科斯后开始环境科斯后开始环境科sf", msgItemTime: 'hahaha' } ,
-                            { avatarUrl: "/static/img/barsang.jpg", userName: 'haha', msgItemContent: "s的发挥快速减肥后开始环境科斯蒂哈发后开始环境科斯后开始环境科斯后开始环境科fsf", msgItemTime: 'hahaha' } ,
-                            { avatarUrl: "/static/img/barsang.jpg", userName: 'haha', msgItemContent: "sf的发挥快速减肥后开始环境科斯蒂哈发后开始环境科斯后开始环境科斯后开始环境科sf", msgItemTime: 'hahaha' }  ]
+                messages: []
             }
         },
+        computed:{
+            ...mapGetters(['getChatMan', 'getSocket', 'getOwnId'])
+        },
         components: {  msg, myScroll },
+
+        created(){
+            if ( !this.getChatMan.userName || !this.getOwnId ){
+                this.$router.replace('/friends')
+            }
+            //socket对象不需要等到创建连接后 才绑定监听事件
+            this.getSocket.on('msgFromOne', (obj) => {
+                this.messages = [...this.messages, obj];
+            })
+        },
+
         methods: {
             back(){
                 this.$router.go(-1)
+            },
+            sendMsg(){
+                let theOne_id = this.$route.params.user_id,
+                    message = this.textarea,
+                    own_id = this.getOwnId;
+                console.log(new Date())
+                this.getSocket.emit('msgToOne', { own_id: own_id, theOne_id: theOne_id, message: message });
+                this.textarea = '';
             }
         }
     }
@@ -120,5 +135,7 @@
     .msg-input-wrapper{
         flex: 8;
     }
+
+
 
 </style>
