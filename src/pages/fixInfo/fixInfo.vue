@@ -9,7 +9,9 @@
             </div>
         </div>
         <div class='userImgWrap'>
-            <img src="../../images/bar.jpg">
+            <div class='img-padding-wrapper'>
+                <img :src="baseUserInfo.avatarUrl">
+            </div>
             <div class='imgStyle'></div>
             <div class='changeUserImg'>更换头像</div>
         </div>
@@ -94,7 +96,8 @@
                     constellation: '天蝎',
                     job: 'FE',
                     city: '香港',
-                    userName: '以上性息获取中'
+                    userName: '以上性息获取中',
+                    avatarUrl: ''
                 },
                 itemState: {
                     editing: ''
@@ -154,7 +157,7 @@
     left: 50%;
     transform: translate(-50%);
     width: 6.5em;
-    height: 3rem;
+    height: 4rem;
 }
 .submitBtn{
     width: 100%;
@@ -208,13 +211,24 @@ h2{
     left: 0;
     right: 0;
 }
+
+.img-padding-wrapper{
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    height: 0;
+}
+
 .userImgWrap img{
     width: 100%;
-    height: 31rem;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 .userImgWrap .imgStyle{
     position: absolute;
-    bottom: 0;
+    bottom: -1px;
     border-width: 5rem 50vw 5rem 50vw;
     border-color: transparent #fff #fff transparent;
     border-style: solid;

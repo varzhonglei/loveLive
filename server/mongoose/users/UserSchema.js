@@ -33,6 +33,9 @@ var UserSchema = new Schema({
         }
     },
     selfDongTai: [selfDongTaiSchema],
+    offLineMessages: [{ msg_id: {type: ObjectId, ref: 'Message'},
+                        theOne_id: {type: ObjectId, ref: 'UserModel'} }],
+    newReply: [{ type: ObjectId, ref: 'dongTai' }],
     relation: {type: ObjectId, ref: 'relation'}
 })
 
@@ -44,10 +47,10 @@ UserSchema.pre('save', function(next) {
         }else{
             this.avatarUrl = 'http://p6fs5mtoh.bkt.clouddn.com/image/jpg/male.jpg'
         }
+        var salt = generateSalt();
+        this.password =  salt + md5(this.password + salt)
     }
 
-    var salt = generateSalt();
-    this.password =  salt + md5(this.password + salt)
     next();
 })
 

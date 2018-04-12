@@ -1,8 +1,6 @@
 /*返回按钮样式*/
-
-
-
-
+/*新消小红点*/
+/*svg icon样式*/
 
 
 
@@ -16,19 +14,39 @@
 .backBtnWrap2{
     padding: 2px;
 }
+.backBtnWrap2 *{
+    vertical-align: middle;
+}
 .backBtnWrap2::after{
     content: '';
     display: block;
     clear: both;
 }
 .backBtnWrap svg{
-    float: left;
-    width: 2rem;
-    height: 2rem;
+    width: 30px;
+    height: 30px;
 }
 .backBtnWrap .backText{
-    float: left;
-    height: 2rem;
-    line-height: 2rem;
+    display: inline-block;
     font-size: 3rem;
+}
+
+/*新消小红点*/
+.new-msg-red-point{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background: #F15E76;
+    border-radius: 50%;
+}
+
+/*svg icon样式*/
+.middle-svg-warpper{
+    display: inline-block;
+}
+.middle-svg-warpper svg{
+    width: 30px;
+    height: 30px;
 }

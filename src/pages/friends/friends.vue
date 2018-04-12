@@ -11,10 +11,15 @@
             </div>
             <ul v-show='isShowFriends'>
                 <li v-for="item in friends" class='friends-item-wrapper' @click='openChat(item._id)'>
-                    <div class='avatar-wrapper'><img :src="item.avatarUrl" alt=""></div>
+                    <div class='avatar-wrapper'>
+                        <img :src="item.avatarUrl" alt="">
+                        <div class='new-msg-red-point' v-show='getNewMsgs.findIndex( (innerItem, index, arr )=>{
+                            return innerItem.from === item._id
+                        } ) != -1'></div>
+                    </div>
                     <div class='name-and-msg-wrapper'>
                         <div class='userName-wrapper'>{{item.userName}}</div>
-                        <div class='msg-recent-wrapper'>我给你眨眼，只因为我爱你</div>
+                        <!--<div class='msg-recent-wrapper'>最近一条消息</div>-->
                     </div>
                 </li>
             </ul>
@@ -29,7 +34,7 @@
                     <div class='avatar-wrapper'><img src="http://p6fs5mtoh.bkt.clouddn.com/image/jpg/male.jpg" alt=""></div>
                     <div class='name-and-msg-wrapper'>
                         <div class='userName-wrapper'>黑豹子</div>
-                        <div class='msg-recent-wrapper'>我给你眨眼，你很帅</div>
+                        <!--<div class='msg-recent-wrapper'>最近一条消息内容</div>-->
                     </div>
                 </li>
              </ul>
@@ -56,7 +61,7 @@
     import navComponent from '../../components/header.vue'
     import slider from '../../components/slider/slider.vue'
     import { getRelationList } from '../../getData/getData.js'
-    import { mapMutations } from 'vuex'
+    import { mapMutations, mapGetters } from 'vuex'
 
     export default { 
         data(){
@@ -73,8 +78,12 @@
                 isShowBlackList: false
             }
         },
+        computed:{
+            ...mapGetters(['getNewMsgsLen', 'getNewMsgs'])
+        },
         created(){
             getRelationList().then(( val ) => {
+                if (val.type) console.log(val)
                 var data = val.data.data;
                 this.friends = data.friends;
             })
@@ -94,7 +103,7 @@
                 var thePerson = this.friends.find(function(item){
                         return item._id == other_id 
                     })
-                //讲与谁聊天存入store，方便下个页面获取。也可以通过?key=val&key=val 查询串的方式拼接到ulr中
+                //将与谁聊天存入store，方便下个页面获取。也可以通过?key=val&key=val 查询串的方式拼接到ulr中
                 this.SET_CHAT_MAN(thePerson);
                 this.$router.push('/chat/' + other_id);
             }
@@ -126,6 +135,7 @@
         display: inline-block;
     }
     .name-and-msg-wrapper, .avatar-wrapper{
+        position: relative;
         height: 5rem;
     }
     .name-and-msg-wrapper{
@@ -153,15 +163,15 @@
 
     .title-list{
         background: rgb(248, 248, 248);
-        height: 4rem;
-        line-height: 4rem;
+        height: 5rem;
+        line-height: 5rem;
         margin-bottom: 1px;
     }
 
     .title-list-wrapper-svg{
         float: left;
-        height: 4rem;
-        width: 4rem;
+        height: 5rem;
+        width: 5rem;
         padding: 0.5rem 0;
         margin-right: 1rem;
     }

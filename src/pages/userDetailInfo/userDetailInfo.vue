@@ -130,7 +130,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    height: 3.5rem;
+    height: 40px;
     display: flex;
 }
 
@@ -138,7 +138,7 @@
     flex: 1;
     border: 0.5px solid rgba(240,240,240,0.9);
     margin-right: 1px;
-    line-height: calc(3.5rem - 1px);
+    line-height: calc(40px - 1px);
     text-align: center;
 }
 

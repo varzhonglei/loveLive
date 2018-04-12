@@ -2,6 +2,7 @@
 
 var UserModel = require('../mongoose/users/UserModel');
 var relation = require('../mongoose/relation/relationModel');
+var Message = require('../mongoose/message/messageModel');
 
 class userMGConstructor {
 	constructor(props) {
@@ -36,8 +37,8 @@ class userMGConstructor {
                     console.log(err)
                     res.send('failure')
                 }else{
-                    console.log('mongodb返回的更改状态的falg:', raw);
-                    res.send('success')
+                    console.log('mongodb返回的更改状态的falg:', raw); 
+                    res.send('success') 
                 } 
             } )
         }
@@ -84,16 +85,19 @@ class userMGConstructor {
            
         })
     }
-    getUserInfo(req, res){
-        var _id = req.session.user_id;
-        UserModel.findOne({ '_id': _id }, function( err, theUser ){
-            if ( err ) console.log(err) 
+    async getUserInfo(req, res){  //不仅仅获取用户信息，这里还多获取了离线消息
+        try{
+            var _id = req.session.user_id;
+            let theUser = await UserModel.findOne({ '_id': _id }).select({password: 0});
+            let msg_idArr = theUser.offLineMessages.map( (item, index, arr) =>{
+                return item.msg_id
+            } );
+            let msgArr = await Message.find({_id: { $in: msg_idArr }});
             if ( theUser ){
-                let tempUser = Object.assign({}, theUser._doc);
-                delete tempUser.password;
                 res.send({
                         status: 0,
-                        data: tempUser,
+                        data: theUser,
+                        msgArr: msgArr
                 })
             }else{
                 res.send({
@@ -102,7 +106,9 @@ class userMGConstructor {
                 message: '无效的session',
                 })
             }
-        })
+        }catch(e){
+            console.log(e)
+        }
     }
     async getRelationList(req, res){
         try{
@@ -124,8 +130,26 @@ class userMGConstructor {
             console.log(err)
             res.send({
                 status: 1,
-                type: 'DB_ERR'
+                type: 'DB_ERR',
+                msg: err
             })
+        }
+    }
+    async clearReadMsg(req, res){
+        let own_id = req.session.user_id,
+            other_id = req.query.other_id;
+        try{
+            let userInfo = await UserModel.findOne({ _id: own_id });
+            userInfo.offLineMessages = userInfo.offLineMessages.filter((item,index)=>{
+                return item.theOne_id === other_id
+            });
+            await userInfo.save();
+            res.send({
+                status: 0,
+                msg: '清除未读消息成功' 
+            })
+        }catch(e){
+            console.log(e)
         }
     }
 }

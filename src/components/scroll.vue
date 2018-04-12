@@ -1,5 +1,5 @@
 <template>
-    <div ref="wrapper" class='wrapper'> 
+    <div ref="wrapper" id='bs-scroll'> 
         <slot></slot> 
     </div>
 </template>
@@ -71,6 +71,13 @@
       refreshDelay: {
         type: Number,
         default: 20
+      },
+      /**
+       * 当数据更新后，是否滚动到底部。
+       */
+      refreshToBottom:{
+        type: Boolean,
+        default: false
       }
     },
     mounted() {
@@ -125,6 +132,9 @@
             this.$emit('beforeScroll')
           })
         }
+        if (this.refreshToBottom){
+          this.refresh()
+        }
       },
       disable() {
         // 代理better-scroll的disable方法
@@ -136,7 +146,15 @@
       },
       refresh() {
         // 代理better-scroll的refresh方法
-        this.scroll && this.scroll.refresh()
+        this.scroll && this.scroll.refresh();
+        if (this.refreshToBottom) { //配合钟金安个人代码使用的
+          try{
+            let lastChild = document.getElementById('bs-scroll').lastElementChild.lastElementChild;
+            this.scroll && this.scroll.scrollToElement(lastChild)
+          }catch(e){
+            console.log(e)
+          }  
+        }
       },
       scrollTo() {
         // 代理better-scroll的scrollTo方法
@@ -161,7 +179,7 @@
 
 <style scoped>
   
-.wrapper{
+#bs-scroll{
   height: 100%;
 }
 

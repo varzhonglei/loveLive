@@ -9,6 +9,7 @@ const friends = r => require.ensure([], () => r(require('../pages/friends/friend
 const chat = r => require.ensure([], () => r(require('../pages/chat/chat')), 'friends')
 const userDetailInfo = r => require.ensure([], () => r(require('../pages/userDetailInfo/userDetailInfo')), 'friends')
 
+const checkNewMsgs  = r => require.ensure([], () => r(require('../pages/checkNewMsgs/checkNewMsgs')), 'checkNewMsgs')
 const search = r => require.ensure([], () => r(require('../pages/search/search')), 'search')
 const login = r => require.ensure([], () => r(require('../pages/login/login')), 'login')
 const signup = r => require.ensure([], () => r(require('../pages/signup/signup')), 'login')
@@ -83,6 +84,10 @@ var routes = [
     {
       path: '/newDongTai',
       component: newDongTai
+    },
+    {
+      path: '/checkNewMsgs',
+      component: checkNewMsgs
     }
   ]
 

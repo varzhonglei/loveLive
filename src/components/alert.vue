@@ -63,31 +63,19 @@
 
 .md-modal {
 	position: fixed;
-	top: 50%;
+	top: 35%;
 	left: 50%;
-	width: 50%;
-	max-width: 630px;
-	min-width: 320px;
+	width: 70%;
+    margin-left: -35%;
 	height: auto;
 	z-index: 2000;
     background: #fff;
     border-radius: 0.5rem;
-	-webkit-transform: scale(1) translateX(-50%) translateY(-50%);
-	-moz-transform: scale(1) translateX(-50%) translateY(-50%);
-	-ms-transform: scale(1) translateX(-50%) translateY(-50%);
-	transform: scale(1) translateX(-50%) translateY(-50%);
-
+	transform: scale(1);
     animation-name: loadMd;
     animation-duration: 0.3s;
     animation-timing-function: linear;
-    /* Firefox: */
-    -moz-animation-name: loadMd;
-    -moz-animation-duration: 0.3s;
-    -moz-animation-timing-function: linear;
-    /* Safari 和 Chrome: */
-    -webkit-animation-name: loadMd;
-    -webkit-animation-duration: 0.3s;
-    -webkit-animation-timing-function: linear;
+    box-sizing: content-box;
 }
  
 @keyframes loadMask
@@ -102,17 +90,11 @@ to {
 @keyframes loadMd
 {
 from {     
-    -webkit-transform: scale(0.5) translateX(-75%) translateY(-75%);
-	-moz-transform: scale(0.5) translateX(-75%) translateY(-75%);
-	-ms-transform: scale(0.5) translateX(-75%) translateY(-75%);
-	transform: scale(0.5) translateX(-75%) translateY(-75%) ;  
+	transform: scale(0) ;  
 	opacity: 0;    
     }
 to {	
-    -webkit-transform: scale(1) translateX(-50%) translateY(-50%);
-	-moz-transform: scale(1) translateX(-50%) translateY(-50%);
-	-ms-transform: scale(1) translateX(-50%) translateY(-50%);
-	transform: scale(1) translateX(-50%) translateY(-50%);    
+	transform: scale(1);    
 	opacity: 1; 
     }
 }

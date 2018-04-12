@@ -15,7 +15,6 @@
 </template>
 
 <script>
-    import backBtn from '../../components/backBtn.vue'
     import { postNewDongTai } from '../../getData/getData.js'
     export default {
         data(){
@@ -25,7 +24,6 @@
                 message: '发表失败'
             }
         },
-        components: { backBtn },
         methods:{
             sendDongTai(){
                 postNewDongTai({ dongTai: {
@@ -48,7 +46,9 @@
 <style lang="scss">
 
 .newDongTai-nav-wrapper{
-    height: 3rem;
+    box-sizing: content-box;
+    padding: 5px;
+    height: 40px;
     border-bottom: 0.5px solid #eee;
 }
 
@@ -56,7 +56,7 @@
     float: right;
     margin-right: 1rem;
     height: 100%;
-    line-height: 3rem;
+    line-height: 40px;
 }
     
 </style>

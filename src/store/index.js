@@ -10,7 +10,8 @@ const state = {
     userInfo: {},
 	isLogin: false,
 	socket: {},
-	chatMan: {}
+	chatMan: {},
+	newMsgs: []
 }
 
 export default new Vuex.Store({

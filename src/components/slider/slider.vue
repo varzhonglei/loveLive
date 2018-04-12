@@ -1,6 +1,8 @@
 <template>
     <div class='slider'>
-        <div class='slider-botton' @click='showSlider'></div>
+        <div class='slider-botton' @click='showSlider'>
+            <div class='new-msg-red-point' v-show='getNewMsgsLen != 0 || getNewReplysLen != 0'></div>
+        </div>
         <slider-middleware :slider-if-show='sliderIfShow' @handHideSlider='handHideSlider'></slider-middleware>
     </div>
 </template>
@@ -8,12 +10,17 @@
 <script>
     //本意是取侧边栏sidebar的。我之前以为slider是侧边栏的意思。。。mmp
     import sliderMiddleware from './sliderMiddleware.vue';
+    import { mapGetters } from 'vuex';
+
     export default{
         components: { sliderMiddleware },
         data(){
             return {
                 sliderIfShow: false
             }
+        },
+        computed:{
+            ...mapGetters(['getNewMsgsLen', 'getNewReplysLen'])
         },
         methods:{
             showSlider(){
@@ -44,5 +51,9 @@
         background-color: #fff;  
         padding: 4px 0;  
         background-clip: content-box;
+    }
+    .slider-botton .new-msg-red-point{
+        top: -10px;
+        right: -5px;
     }
 </style>

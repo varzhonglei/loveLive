@@ -24,27 +24,33 @@
             // this.$router.beforeEach(loginCheck);
             // 路由守卫，检测是否有登陆信息，从而限定游客的浏览范围
 
+            
+            let handMsgFromOne; //把这个事件处理函数引用存起来，方便以后取消监听
+            handMsgFromOne = ( msg ) => {
+                this.ADD_NEW_MSG(msg)
+            }
+
             getUserInfo().then( (res) => {
                 var val = res.data;
                 //有type表示有误，可能是session无效了
                 if ( val.type ){
                     this.$router.push({path: '/login'})
                 }else{
-                    this.SET_USER_INFO(val.data);
+                    this.SET_USER_INFO( val.data );
+                    this.ADD_NEW_MSGS( val.msgArr );
                     this.SET_SOCKET( io.connect(baseUrl) );  
                     this.INIT_SOCKET();   
-                    this.RESET_SOCKET();      
+                    this.$store.state.socket.on('msgFromOne', handMsgFromOne)
                 }
             })
         },
         methods: {
-            ...mapMutations(['SET_USER_INFO', 'SET_SOCKET', 'INIT_SOCKET', 'RESET_SOCKET'])
+            ...mapMutations(['SET_USER_INFO', 'SET_SOCKET', 'INIT_SOCKET', 'ADD_NEW_MSG', 'ADD_NEW_MSGS'])
         }
   }
 </script>
 
 <style lang='scss'>
-
 
 
 body, div, span, header, footer, nav, section, aside, article,
