@@ -1,14 +1,14 @@
 <template>
     <div>
-        active 哈哈哈哈
-        active 哈哈哈哈active 哈哈哈哈
-        active 哈哈哈哈
+        非诚勿扰
+        一个群聊游戏。哈哈哈，哦莫西咯一  
+        活动开发中 敬请期待。。。。。
     </div>
 </template>
 
 <script>
     export default{
-
+    
     }
 </script>
 

@@ -14,7 +14,10 @@ var UserSchema = new Schema({
         type: String,
         default: 'male'
     },
-    age: String,
+    age: {
+        type: Number,
+        default: 23
+    },
     height: String,
     weight: String,
     education: String,
@@ -30,7 +33,8 @@ var UserSchema = new Schema({
         creatAt:{
             type: Date,
             default: Date.now()
-        }
+        },
+        lastOnLine: Date,
     },
     selfDongTai: [selfDongTaiSchema],
     offLineMessages: [{ msg_id: {type: ObjectId, ref: 'Message'},
@@ -42,6 +46,8 @@ var UserSchema = new Schema({
 UserSchema.pre('save', function(next) {
     if (this.isNew) {
         this.meta.creatAt = Date.now();
+        this.meta.lastOnLine = Date.now();
+        this.age = 23;
         if( this.sex === 'female' ){
             this.avatarUrl = 'http://p6fs5mtoh.bkt.clouddn.com/image/jpg/female.jpg'
         }else{

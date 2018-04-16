@@ -23,6 +23,9 @@ app.get('/getRelationList', userMG.getRelationList)
 
 app.get('/clearReadMsg', userMG.clearReadMsg)
 
+app.get('/searchUser', userMG.searchUser)
+
+app.get('/getUsersByRandom', userMG.getUsersByRandom)
 
 //广场动态管理员
 app.post('/postNewDongTai', checkMG.sessionCheck, squareMG.newDongTai)
@@ -32,6 +35,7 @@ app.post('/dongTaiReply', checkMG.sessionCheck, squareMG.dongTaiReply)
 app.post('/square/getDongTais', checkMG.sessionCheck, squareMG.getDongTais)
 
 app.post('/getDongtaiByIds', checkMG.sessionCheck, squareMG.getDongtaiByIds)
+
 
 
 app.get('/signout', function (req, res){
@@ -68,8 +72,7 @@ app.post('/login', function (req, res) {
 
 app.get('*', function (req, res) {
     console.log('收到一个未匹配路由：' + req.originalUrl)
-    res.send('404, not found')
-    // res.sendFile(path.join(__dirname,'../../loveLive/index.html'))
+    res.sendFile(path.join(__dirname,'../../loveLive/index.html'))
 })
 
 }

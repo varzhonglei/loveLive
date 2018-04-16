@@ -187,7 +187,7 @@
 .itemInp{
     display: none;
     border: 1px solid #aaa;
-    width: 75%;
+    width: 71%;
     font-size: 3.4rem;
     padding: 0.5rem 3rem 0.5rem 0.5rem;
 }

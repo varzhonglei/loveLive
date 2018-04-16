@@ -3,6 +3,7 @@
         <nav-component></nav-component>
         <slider></slider>
         <div class='content-wrap'>
+        
             <div class='title-list' @click="toggleList('friends')">
                 <span>friends</span> 
                 <div class='title-list-wrapper-svg'>
@@ -23,6 +24,7 @@
                     </div>
                 </li>
             </ul>
+
             <div class='title-list' @click="toggleList('metPersons')">
                 <span>metYou</span> 
                 <div class='title-list-wrapper-svg'>
@@ -33,7 +35,7 @@
                 <li v-for="item in metPersons" class='friends-item-wrapper'>
                     <div class='avatar-wrapper'><img src="http://p6fs5mtoh.bkt.clouddn.com/image/jpg/male.jpg" alt=""></div>
                     <div class='name-and-msg-wrapper'>
-                        <div class='userName-wrapper'>黑豹子</div>
+                        <div class='userName-wrapper'>有过互动的人</div>
                         <!--<div class='msg-recent-wrapper'>最近一条消息内容</div>-->
                     </div>
                 </li>
@@ -46,10 +48,10 @@
                 </div>
             </div>
             <ul v-show='isShowBlackList'>
-                <li v-for="item in blackList" class='friends-item-wrapper'>
+                <li v-for="item in blackList" class='friends-item-wrapper black-item'>
                     <div class='avatar-wrapper'><img src="http://p6fs5mtoh.bkt.clouddn.com/image/jpg/male.jpg" alt=""></div>
                     <div class='name-and-msg-wrapper'>
-                        <div class='userName-wrapper'>黑豹子</div>
+                        <div class='userName-wrapper'>被拉黑的人</div>
                     </div>
                 </li>
              </ul>
@@ -125,6 +127,9 @@
     }
     .friends-item-wrapper{
        border: 0.5px solid rgb(248,248,240);
+    }
+    .black-item{
+       filter: grayscale(100%); 
     }
 
     .content-wrap ul li{

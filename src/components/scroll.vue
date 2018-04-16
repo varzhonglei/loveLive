@@ -150,7 +150,7 @@
         if (this.refreshToBottom) { //配合钟金安个人代码使用的
           try{
             let lastChild = document.getElementById('bs-scroll').lastElementChild.lastElementChild;
-            this.scroll && this.scroll.scrollToElement(lastChild)
+            this.scroll && this.scroll.scrollToElement(lastChild,1)
           }catch(e){
             console.log(e)
           }  

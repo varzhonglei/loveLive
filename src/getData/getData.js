@@ -43,6 +43,10 @@ export const addFriend = ( own_id, other_id ) => myAxios.get( `addFriend/?own_id
 
 export const getRelationList = () => myAxios.get('getRelationList')
 
+export const searchUser = ( searchKey ) => myAxios.get( `searchUser/?searchKey=${searchKey}` )
 
-export const test = (data) => myAxios.post( 'test', data )
+export const getUsersByRandom = () => myAxios.get('getUsersByRandom')
+
+
+
 

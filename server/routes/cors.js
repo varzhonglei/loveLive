@@ -5,7 +5,6 @@ module.exports = function (app){
         // if( req.headers.origin == 'http://localhost:8000' || req.headers.origin == 'http://179357c9y4.iok.la:24639' ){
         //       res.header("Access-Control-Allow-Origin", req.headers.origin);
         // }
-
         //大赦天下 可能不安全哟
         res.header("Access-Control-Allow-Origin", req.headers.origin);
 

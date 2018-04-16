@@ -5,16 +5,14 @@
  * 
  */
 
-let baseUrl = 'http://localhost:3000/'; 
+let baseUrl; 
 
-// let baseUrl = 'http://179357c9y4.iok.la:27823/';
-
-// if (process.env.NODE_ENV == 'development') {
-//     baseUrl = 'http://localhost:8000/';
-
-// }else if ( process.env.NODE_ENV == 'production' ){
-//     baseUrl = 'http://localhost:3000/';
-// }
+if (process.env.NODE_ENV == 'development') {
+    baseUrl = 'http://localhost:3000/';
+	// baseUrl = 'http://179357c9y4.iok.la:27823/';
+}else if ( process.env.NODE_ENV == 'production' ){
+    baseUrl = 'http://localhost:3000/';
+}
 
 export { 
 	baseUrl 

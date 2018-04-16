@@ -15,7 +15,7 @@
   export default {
     props: {
         avatarUrl: {
-            default: '/static/img/bar.jpg',
+            default: '',
             type: String
         },
         userName: {

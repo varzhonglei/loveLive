@@ -106,8 +106,16 @@ class userMGConstructor {
                 message: '无效的session',
                 })
             }
+            UserModel.update({ '_id': _id }, { $set: { "meta.lastOnLine":  Date.now() } }, function(err, raw){
+                if (err) console.log(err)
+            });
         }catch(e){
             console.log(e)
+            res.send({
+                status: 0,
+                type: 'DB_ERR',
+                message: '无效的session',
+                })
         }
     }
     async getRelationList(req, res){
@@ -150,6 +158,63 @@ class userMGConstructor {
             })
         }catch(e){
             console.log(e)
+        }
+    }
+    async searchUser(req, res){
+        let searchKey = req.query.searchKey;
+        let searchResults;
+        try{
+            let val1 = await UserModel.find({account: searchKey }).limit(1);
+            let val2 = await UserModel.find({userName: new RegExp(searchKey)}).limit(10); 
+            searchResults = [...val1, ...val2];
+            res.send({
+                state: 0,
+                searchResults: searchResults
+            })
+        }catch(e) {
+            res.send({
+                state: 0,
+                type: 'DB_ERR',
+                searchResults: []
+            })
+            console.log(e)
+        }
+    }
+    async getUsersByRandom(req, res){
+        try{
+            let _id = req.session.user_id;
+            let theUser = await UserModel.findOne({_id: _id});
+            let city = theUser.city,
+                age = theUser.age || 23,
+                sex = theUser.sex;
+            let tempArr = await UserModel.find({age: {$gte: age - 5, $lte: age + 5}, sex: { $nin: [sex]}  } )
+                           .sort({'lastOnLine': -1})
+                           .limit(31);
+            let resUser = [];
+            let ssr = false;
+            if (tempArr.length >= 31){
+                resUser = tempArr[ (new Date()).getDate() - 1 ];
+            }else{
+                resUser = tempArr[ Math.floor( Math.random() * (tempArr.length) )]
+            }
+            if ( Math.random() < 0.04 ){
+                tempArr = await UserModel.find({ sex: sex}).sort({'lastOnLine': -1}).limit(1);
+                resUser = tempArr[0];
+                ssr = true;
+            }
+            //防止没有合适的人随便塞一个异性给返回数据
+            resUser = resUser ||  await UserModel.findOne({ sex: { $nin: [sex]} });
+            res.send({
+                state: 0,
+                data: resUser,
+                srr: ssr
+            })
+        }catch(e){
+            console.log(e)
+            res.send({
+                state: 0,
+                type: 'DB_ERR'
+            })
         }
     }
 }

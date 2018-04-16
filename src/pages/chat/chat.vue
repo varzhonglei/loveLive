@@ -108,10 +108,11 @@
                     if (localHistory.length > 400) localHistory = localHistory.slice(200) //清除过多的消息缓存
                     localHistory = [...localHistory, ...this.getTheOneMsg(theOne_id)];//从store中取出该人的未读消息
                     setItem(uniqueKey, localHistory);
-                    this.messages = localHistory;
+                    this.messages = [...localHistory];
                 }else{
-                    localHistory = this.getTheOneMsg(theOne_id);
-                    setItem(uniqueKey, localHistory)
+                    let theOneNews = this.getTheOneMsg(theOne_id);
+                    setItem(uniqueKey, theOneNews);
+                    this.messages = [...theOneNews]
                 }
 
                 clearReadMsg(theOne_id).then(
@@ -131,13 +132,12 @@
                         }else{
                             setItem(uniqueKey, [obj])
                         }
-
-                        this.REMOVE_NEW_MSGS(obj);
-                        this.messages = [...this.messages, obj];
+                        setTimeout(()=>{ this.REMOVE_NEW_MSGS(obj) }, 17);//在全局推入新消息后，把其取出
+                        
                     }else{
                         this.ADD_NEW_MSG(obj);
                     }
-
+                    this.messages = [...this.messages, obj];
                 }
 
                 this.sendSuccess = (obj) => {

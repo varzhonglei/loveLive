@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class='user-detail-info-wrap'>
         <div class='backBtnWrap'>
             <div class='backBtnWrap2' @click='back'>
                 <svg version="1.1" viewBox="0 0 1000 1000" >
@@ -10,16 +10,19 @@
         </div>
 
         <div class='userImgWrap'>
-            <img src="../../images/bar.jpg">
+            <div class='img-padding-wrapper'>
+                <img :src="this.baseUserInfo.avatarUrl"  alt='用户头像'>
+            </div>
             <div class='imgStyle'></div>
         </div>
 
         <div class='baseInfo'>
-            <h2>基础资料</h2>
+            <div class='userName'>{{baseUserInfo.userName}}</div>
+            <h3>基础资料</h3>
             <ul>
                 <li>
-                    <div>是否互相记住</div>
-                    <div>123</div>
+                    <div>是否互加好友</div>
+                    <div>功能待实现</div>
                 </li>
                 <li>   
                     <div>性别</div>
@@ -56,15 +59,18 @@
 <script>
     import alert from '../../components/alert.vue'
     import { addFriend, getOtherInfo } from '../../getData/getData.js'
+    import { mapMutations } from 'vuex'
 
     export default {
         data() {
             return {
                 baseUserInfo: {
+                    userName: '未获取',
                     sex: '未获取',
                     age: '未获取',
                     education: '未获取',
                     constellation: '未获取',
+                    avatarUrl: '#'
                 },
                 mdState: false,
                 mdMessage: 'something from father'
@@ -80,6 +86,7 @@
             })
         },
         methods: {
+            ...mapMutations(['SET_CHAT_MAN']),
             back() {
                 this.$router.go(-1)
             },
@@ -99,7 +106,13 @@
                 this.mdState = true
             },
             startChat(){
-                console.log(22)
+                let thePerson = {
+                    _id: this.$route.params.user_id,
+                    avatarUrl: this.baseUserInfo.avatarUrl,
+                    userName: this.baseUserInfo.userName
+                }
+                this.SET_CHAT_MAN(thePerson);
+                this.$router.push('/chat/' + thePerson._id);
             }
         }
     }
@@ -107,26 +120,60 @@
 </script>
 
 <style scoped>
+
+.user-detail-info-wrap{
+    margin-bottom: 40px;  
+}
+
 /*用户头像样式*/
 .userImgWrap{
     position: relative;
     left: 0;
     right: 0;
 }
+
+.img-padding-wrapper{
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    height: 0;
+}
+
 .userImgWrap img{
     width: 100%;
-    height: 31rem;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 .userImgWrap .imgStyle{
     position: absolute;
-    bottom: 0;
+    bottom: -1px;
     border-width: 5rem 50vw 5rem 50vw;
     border-color: transparent #fff #fff transparent;
     border-style: solid;
 }
+.userImgWrap .changeUserImg{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.8rem;
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+    z-index: 101;
+    font-size: 3.4rem;
+}
+
+
+.userName{
+    text-align: center;
+    color: #f40;
+    font-size: 4.5rem;
+}
+
 
 .foot-bar-wrapper{
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
@@ -136,6 +183,7 @@
 
 .foot-bar{
     flex: 1;
+    background: #fff;
     border: 0.5px solid rgba(240,240,240,0.9);
     margin-right: 1px;
     line-height: calc(40px - 1px);

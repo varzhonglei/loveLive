@@ -31,7 +31,9 @@ export default {
 		socket.on('news', function( obj ){ //连接成功后服务器推送过来的第一条消息
 			console.log(obj)
 		});
-		socket.emit('getARoom', {user_id: state.userInfo._id, userName: state.userInfo.userName})
+		socket.on('connect', function (){
+			socket.emit('getARoom', {user_id: state.userInfo._id, userName: state.userInfo.userName})
+		})
 	},
 	[ADD_NEW_MSG](state, msg){
 		state.newMsgs = [...state.newMsgs, msg]
@@ -39,19 +41,18 @@ export default {
 	[ADD_NEW_MSGS](state, msgs){
 		state.newMsgs = [...state.newMsgs, ...msgs];
 	},
-	[REMOVE_NEW_MSGS](state, msg){ //传入值可能是对象，也可能是字符串 from_id
-		let theMsgs;
+	[REMOVE_NEW_MSGS](state, msg){ //传入值可能是 消息对象，也可能是字符串 from_id
+		let theMsgs = [];
 		if ( typeof msg !== 'string'){
 			theMsgs = state.newMsgs.filter((item, index, arr)=>{
 						return item._id !== msg._id
 					});
-			state.newMsgs = theMsgs;
 		}else{
 			theMsgs = state.newMsgs.filter((item, index, arr)=>{
 						return item.from !== msg
 					});
-			state.newMsgs = theMsgs;
 		}
+		state.newMsgs = theMsgs;
 	},
 	[SET_CHAT_MAN](state, chatMan){
 		state.chatMan = chatMan

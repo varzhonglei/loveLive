@@ -1,7 +1,7 @@
 /*返回按钮样式*/
 /*新消小红点*/
 /*svg icon样式*/
-
+/*好友列表- 单位好友样式*/
 
 
 /*返回按钮样式*/
@@ -31,7 +31,7 @@
     font-size: 3rem;
 }
 
-/*新消小红点*/
+/*新消息小红点*/
 .new-msg-red-point{
     position: absolute;
     right: 5px;
@@ -47,6 +47,32 @@
     display: inline-block;
 }
 .middle-svg-warpper svg{
+    vertical-align: middle;
     width: 30px;
     height: 30px;
+}
+
+
+/*好友列表- 单位好友样式*/
+.friends-item-wrapper{
+    border: 0.5px solid rgb(248,248,240);
+    padding: 10px;
+}
+
+.friends-item-wrapper *{
+    vertical-align: middle;
+}
+
+.friends-item-wrapper>div{
+    display: inline-block;
+}
+
+.avatar-wrapper{
+    width: 5rem;
+    height: 5rem;       
+}
+
+.avatar-wrapper img{
+    width: 100%;
+    height: 100%;
 }
