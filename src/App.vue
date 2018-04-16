@@ -21,7 +21,7 @@
                     this.$router.push({path: '/login'})
                 }
             }
-            // this.$router.beforeEach(loginCheck);
+            this.$router.beforeEach(loginCheck);
             // 路由守卫，检测是否有登陆信息，从而限定游客的浏览范围
 
             

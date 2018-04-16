@@ -11,6 +11,7 @@ var mongoose = require('mongoose');
 var mongoStore = require('connect-mongo')(session);
 
 var dbUrl = 'mongodb://localhost:27017/lovelive'; 
+
 //新建字段时关闭自动排序提高性能
 mongoose.connect(dbUrl,{ config: { autoIndex: false } });
 
