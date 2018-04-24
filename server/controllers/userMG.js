@@ -88,16 +88,11 @@ class userMGConstructor {
     async getUserInfo(req, res){  //不仅仅获取用户信息，这里还多获取了离线消息
         try{
             var _id = req.session.user_id;
-            let theUser = await UserModel.findOne({ '_id': _id }).select({password: 0});
-            let msg_idArr = theUser.offLineMessages.map( (item, index, arr) =>{
-                return item.msg_id
-            } );
-            let msgArr = await Message.find({_id: { $in: msg_idArr }});
-            if ( theUser ){
+            let findResults = await dbFindMsgAndUserInfo(_id);
+            if ( findResults.data ){
                 res.send({
-                        status: 0,
-                        data: theUser,
-                        msgArr: msgArr
+                        ...findResults,
+                        status: 0
                 })
             }else{
                 res.send({
@@ -216,6 +211,47 @@ class userMGConstructor {
                 type: 'DB_ERR'
             })
         }
+    }
+    async login(req, res){
+        var _account = req.body.account,
+        _password = req.body.password;
+        UserModel.findOne({ account: _account }, function (err, hasTheUser){
+            var resObj = {};
+            if(hasTheUser){
+                hasTheUser.comparePassword(_password,async function (isMatch){
+                    if(isMatch){
+                        req.session.user_id = hasTheUser._id;
+                        let findResults = await dbFindMsgAndUserInfo(req.session.user_id);
+                        resObj = { ...findResults };
+                        resObj.loginState = 'loginSuccess';
+                    }else{
+                        resObj.loginState = '密码错误';
+                    }
+                    res.send(JSON.stringify(resObj))
+                })
+            }else{
+                resObj.loginState = '账号未注册';
+                res.send(JSON.stringify(resObj))
+            }
+        })
+    }
+}
+
+async function dbFindMsgAndUserInfo(_id){
+    try {
+        let theUser = await UserModel.findOne({ '_id': _id }).select({password: 0});
+        let msg_idArr = theUser.offLineMessages.map( (item, index, arr) =>{
+            return item.msg_id
+        } );
+        let msgArr = await Message.find({_id: { $in: msg_idArr }})
+                                    .populate({path: 'from', select: 'avatarUrl userName'});
+        return {
+            data: theUser,
+            msgArr: msgArr
+        }
+    }catch(e){
+        console.log(e)
+        return {}
     }
 }
 

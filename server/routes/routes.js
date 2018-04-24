@@ -26,7 +26,7 @@ app.get('/clearReadMsg', userMG.clearReadMsg)
 app.get('/searchUser', userMG.searchUser)
 
 app.get('/getUsersByRandom', userMG.getUsersByRandom)
-
+ 
 //广场动态管理员
 app.post('/postNewDongTai', checkMG.sessionCheck, squareMG.newDongTai)
 
@@ -46,29 +46,7 @@ app.get('/signout', function (req, res){
 	})
 })
 
-app.post('/login', function (req, res) {
-    var _account = req.body.account,
-        _password = req.body.password;
-    UserModel.findOne({ account: _account }, function (err, hasTheUser){
-        var resObj = {};
-        if(hasTheUser){
-            hasTheUser.comparePassword(_password, function (isMatch){
-                if(isMatch){
-                    req.session.user_id = hasTheUser._id;
-                    resObj.userInfo = { ...hasTheUser._doc };
-                    delete resObj.userInfo.password;
-                    resObj.loginState = 'loginSuccess';
-                }else{
-                    resObj.loginState = '密码错误';
-                }
-                res.send(JSON.stringify(resObj))
-            })
-        }else{
-            resObj.loginState = '账号未注册';
-            res.send(JSON.stringify(resObj))
-        }
-    })
-})
+app.post('/login', userMG.login)
 
 app.get('*', function (req, res) {
     console.log('收到一个未匹配路由：' + req.originalUrl)

@@ -41,7 +41,7 @@
         transform: translateX(0)
     }
     .sliderOutIn-enter-active{
-        transition: 1s
+        transition: .4s
     }
 
     .sliderOutIn-leave{
@@ -51,7 +51,7 @@
         transform: translateX(-100%)
     }
     .sliderOutIn-leave-active{
-        transition: 1s
+        transition: .4s
     }
 
     .mask-enter{
@@ -61,7 +61,7 @@
         opacity: 0.7
     }
     .mask-enter-active{
-        transition: 1s
+        transition: .4s
     }
 
 </style>

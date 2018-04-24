@@ -1,14 +1,16 @@
 const SET_USER_INFO = 'SET_USER_INFO' 
 const SIGN_OUT = 'SIGN_OUT'
 const FIX_USER_INFO = 'FIX_USER_INFO' 	 	 //重置用户性息
+
 const SET_SOCKET = 'SET_SOCKET'              //将socket放入store中，方便页面共享
 const INIT_SOCKET = 'INIT_SOCKET'            //想服务器索要房间
+const RESET_SOCKET = 'RESET_SOCKET'
+
 const REMOVE_NEW_MSGS = 'REMOVE_NEW_MSGS' 
 const ADD_NEW_MSG = 'ADD_NEW_MSG'
 const ADD_NEW_MSGS = 'ADD_NEW_MSGS'
 const SET_CHAT_MAN = 'SET_CHAT_MAN' 		 //设置当前聊天人性息
 const CLEAR_NEW_REPLY = 'CLEAR_NEW_REPLY'
-
 
 
 export default {
@@ -34,6 +36,9 @@ export default {
 		socket.on('connect', function (){
 			socket.emit('getARoom', {user_id: state.userInfo._id, userName: state.userInfo.userName})
 		})
+	},
+	[RESET_SOCKET](state){
+		state.socket && state.socket.close()
 	},
 	[ADD_NEW_MSG](state, msg){
 		state.newMsgs = [...state.newMsgs, msg]

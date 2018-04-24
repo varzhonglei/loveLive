@@ -1,10 +1,10 @@
-<template>
+<template> 
     <div>   
-        <div class="newDongTai-nav-wrapper">
+        <div class="newDongTai-nav-wrapper"> 
             <back-btn></back-btn>
         </div>
         <div class='check-all-msg-content-wrapper'>
-                                    <!--违心的用了隔壁广场的class名， 用于共享一套css -->
+                                    <!--用了隔壁广场的class名， 用于共享一套css -->
             <div class='check-dongtai-wrapper square'>
                 <div class='check-title'>
                     <span>新回复</span>

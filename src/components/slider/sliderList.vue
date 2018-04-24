@@ -61,7 +61,7 @@
         },
 
         methods:{
-            ...mapMutations(['SIGN_OUT']),
+            ...mapMutations(['SIGN_OUT', 'RESET_SOCKET']),
             toFixInfo () {
                 this.$router.push('./fixInfo')
             },
@@ -73,6 +73,7 @@
                         this.isShowModel = true;
                         setCookie('connect.sid', '', -1);
                         this.$store.commit('SIGN_OUT');
+                        this.RESET_SOCKET();
                         this.$router.push('./login');
                     }
                 })

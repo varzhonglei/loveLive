@@ -25,7 +25,7 @@
             // 路由守卫，检测是否有登陆信息，从而限定游客的浏览范围
 
             
-            let handMsgFromOne; //把这个事件处理函数引用存起来，方便以后取消监听
+            let handMsgFromOne; 
             handMsgFromOne = ( msg ) => {
                 this.ADD_NEW_MSG(msg)
             }
@@ -37,15 +37,29 @@
                     this.$router.push({path: '/login'})
                 }else{
                     this.SET_USER_INFO( val.data );
-                    this.ADD_NEW_MSGS( val.msgArr );
-                    this.SET_SOCKET( io.connect(baseUrl) );  
+                    let msgArr = this.msgFromChange(val.msgArr);
+                    this.ADD_NEW_MSGS( msgArr );
+                    this.SET_SOCKET( io.connect(baseUrl)); 
                     this.INIT_SOCKET();   
-                    this.$store.state.socket.on('msgFromOne', handMsgFromOne)
+                    this.$store.state.socket.on('msgFromOne', handMsgFromOne);
                 }
             })
         },
         methods: {
-            ...mapMutations(['SET_USER_INFO', 'SET_SOCKET', 'INIT_SOCKET', 'ADD_NEW_MSG', 'ADD_NEW_MSGS'])
+            ...mapMutations(['SET_USER_INFO', 'SET_SOCKET', 'INIT_SOCKET', 'ADD_NEW_MSG', 'ADD_NEW_MSGS']),
+            msgFromChange(arr){
+                try{
+                    return arr.map((item, index, arr)=>{
+                        item.avatarUrl = item.from.avatarUrl;
+                        item.userName = item.from.userName;
+                        item.from = item.from._id
+                        return item
+                    })
+                }catch(e){
+                    console.log(e)
+                    return []
+                }
+            }
         }
   }
 </script>

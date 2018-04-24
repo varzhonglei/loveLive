@@ -46,6 +46,7 @@
 .middle-svg-warpper{
     display: inline-block;
 }
+
 .middle-svg-warpper svg{
     vertical-align: middle;
     width: 30px;

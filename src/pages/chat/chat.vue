@@ -92,6 +92,7 @@
                                         userName: userName,
                                         msgItemTime: date,
                                         isSendSuccess: 'wait' }; 
+                // console.log({ own_id: own_id, theOne_id: theOne_id, message: message, date: date });
                 this.getSocket.emit('msgToOne', { own_id: own_id, theOne_id: theOne_id, message: message, date: date });
                 this.messages = [ ...this.messages, theLocalFormat];
                 this.textarea = '';

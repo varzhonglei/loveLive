@@ -26,6 +26,8 @@
 <script>
     import { login } from '../../getData/getData.js'
     import { mapMutations } from 'vuex'
+    import io from 'socket.io-client'
+    import { baseUrl } from '../../config/env'
 
     export default {
         data(){
@@ -37,13 +39,23 @@
             }
         },
         methods:{
-            ...mapMutations(['SET_USER_INFO']),
+            ...mapMutations(['SET_USER_INFO', 'SET_SOCKET', 'INIT_SOCKET', 'ADD_NEW_MSG', 'ADD_NEW_MSGS']),
             handLogin () {
+                let handMsgFromOne; 
+                handMsgFromOne = ( msg ) => {
+                    this.ADD_NEW_MSG(msg)
+                }
                 login({account: this.account, password: this.password}).then(( res ) =>{ 
                     //axios自动帮你把返回值转化为对象，不用调用 JSON.parse了
                     var val = res.data;
+                    console.log(val)
                     if (val.loginState === 'loginSuccess') {
-                        this.$store.commit('SET_USER_INFO', val.userInfo);
+                        this.SET_USER_INFO( val.data );
+                        let msgArr = this.msgFromChange(val.msgArr);
+                        this.ADD_NEW_MSGS( msgArr );
+                        this.SET_SOCKET( io.connect(baseUrl) );  
+                        this.INIT_SOCKET();   
+                        this.$store.state.socket.on('msgFromOne', handMsgFromOne);
                         this.$router.push({path: '/'})
                     }else {
                         this.message = val.loginState;
@@ -53,6 +65,19 @@
             },
             closeMd (){
                 this.mdState = false;
+            },
+            msgFromChange(arr){
+                try{
+                    return arr.map((item, index, arr)=>{
+                        item.avatarUrl = item.from.avatarUrl;
+                        item.userName = item.from.userName;
+                        item.from = item.from._id
+                        return item
+                    })
+                }catch(e){
+                    console.log(e)
+                    return []
+                }
             }
         }
     }   

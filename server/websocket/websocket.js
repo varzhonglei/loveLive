@@ -13,7 +13,7 @@ function websocket (server){
             socket.room = obj.user_id;
             rooms[obj.user_id] = obj.userName;
             socket.join(obj.user_id);
-            console.log( obj.userName,'上线了')
+            console.log( obj.userName, '上线了'); 
             console.log('所有在线人：', rooms, '\n') 
         });
 
@@ -37,7 +37,7 @@ function websocket (server){
             let theDialogue = await Dialogue.findOne({theTwo: theTwo}); //未找到返回null
             if ( theDialogue && rooms.hasOwnProperty(to) ){ // 有过会话,并且对方在线
                 theDialogue.messages.push(message_id);
-                await theDialogue.save();
+                await theDialogue.save(); 
             }else{
                 if ( !theDialogue ) { 
                     //从未有过会话
@@ -49,7 +49,7 @@ function websocket (server){
                 theOne.offLineMessages.push({msg_id:message_id, theOne_id: from});
                 await theOne.save();
             }
-            await newMessage.save();
+            await newMessage.save(); 
             let theUser = await UserModel.findOne({_id: from}).select({avatarUrl:1, userName: 1});
             avatarUrl = theUser.avatarUrl;
             userName = theUser.userName;
