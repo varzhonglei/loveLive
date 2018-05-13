@@ -21,8 +21,8 @@
             <h3>基础资料</h3>
             <ul>
                 <li>
-                    <div>是否互加好友</div>
-                    <div>功能待实现</div>
+                    <div>是否互加关注</div>
+                    <div>待续</div>
                 </li>
                 <li>   
                     <div>性别</div>
@@ -45,7 +45,7 @@
 
         <div class='foot-bar-wrapper'>
             <div class='foot-bar' @click='remenberYou'>
-                加好友
+                follow
             </div>
             <div class='foot-bar' @click='startChat'>
                 发消息

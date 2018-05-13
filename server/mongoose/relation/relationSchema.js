@@ -14,4 +14,7 @@ var relationSchema = new Schema({
     blackList: [ {type: ObjectId, ref: 'UserModel'} ]
 })
 
+// 2018/5/5   这张表直接放在用户表里会不会更好？
 module.exports = relationSchema
+
+ 

@@ -12,7 +12,7 @@ var dongTaiSchema = new Schema({
         default: []
     },
     whoPublish: {type: ObjectId, ref: 'UserModel'},
-    whoPraise: [{type: ObjectId, ref: 'UserModel'}],
+    whoPraise: [{type: ObjectId, ref: 'UserModel'}], 
     reply: [{
         from: {type: ObjectId, ref: 'UserModel'},
         to: {type: ObjectId, ref: 'UserModel'},

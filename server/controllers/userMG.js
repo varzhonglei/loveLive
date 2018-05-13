@@ -85,10 +85,10 @@ class userMGConstructor {
            
         })
     }
-    async getUserInfo(req, res){  //不仅仅获取用户信息，这里还多获取了离线消息
+    async getUserInfo(req, res){  
         try{
             var _id = req.session.user_id;
-            let findResults = await dbFindMsgAndUserInfo(_id);
+            let findResults = await dbFindMsgAndUserInfo(_id);//不仅仅获取用户信息，这里还多获取了离线消息
             if ( findResults.data ){
                 res.send({
                         ...findResults,
@@ -197,7 +197,7 @@ class userMGConstructor {
                 resUser = tempArr[0];
                 ssr = true;
             }
-            //防止没有合适的人随便塞一个异性给返回数据
+            //防止没有合适的人,随便塞一个异性给返回数据
             resUser = resUser ||  await UserModel.findOne({ sex: { $nin: [sex]} });
             res.send({
                 state: 0,

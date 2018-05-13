@@ -5,7 +5,7 @@
         <div class='content-wrap'>
         
             <div class='title-list' @click="toggleList('friends')">
-                <span>friends</span> 
+                <span>follow</span> 
                 <div class='title-list-wrapper-svg'>
                     <svg :class='{titleSvgOpen: !isShowFriends }' viewBox="0 0 1024 1024"  width="3rem" height="3rem"><path d="M512 736 128 320 896 320Z" p-id="2933" data-spm-anchor-id="a313x.7781069.0.i3" class="" fill="#1296db"></path></svg>
                 </div>

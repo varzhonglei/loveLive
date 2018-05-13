@@ -49,7 +49,7 @@ app.get('/signout', function (req, res){
 app.post('/login', userMG.login)
 
 app.get('*', function (req, res) {
-    console.log('收到一个未匹配路由：' + req.originalUrl)
+    console.log('get a mismatched Url:' + req.originalUrl)
     res.sendFile(path.join(__dirname,'../../loveLive/index.html'))
 })
 

@@ -11,6 +11,10 @@
                 <label for='password'>密码</label>
                 <input v-model='password' type="password" id='password'>
             </div>
+            <div class='input-wrapper'>
+                <label for='passwordCheck'>确认密码</label>
+                <input v-model='passwordCheck' type="password" id='passwordCheck'>
+            </div>
 
             <div class='radio'>
                 <input type="radio" id='male' value='male' v-model='sex'>
@@ -35,10 +39,27 @@
 <script>
     import alert from '../../components/alert.vue'
     import { signup } from '../../getData/getData.js'
+    let regFormat = /[^a-zA-Z0-9`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;
+    let formatCheckFun = ( account, password, passwordCheck ) => {
+        let arr;
+        if ( !account || account.length > 35 ) return '账号长度为1-35'
+        arr =  account.match(regFormat);
+        if ( arr ){
+            return '账号 中含有非法字符' + '"' + arr[0] + '"';
+        }
+        if ( !password || password.length > 35 ) return '密码长度为1-35'
+        arr =  password.match(regFormat);
+        if ( arr ){
+            return '密码 中含有非法字符' + '"' + arr[0] + '"';
+        }
+        if ( password != passwordCheck ) return '两次密码输入不一致'
+        return false;
+    }
     export default {
         data(){
             return {
                 account: '',
+                passwordCheck: '',
                 password: '',
                 sex: 'male',
                 mdState: false,
@@ -48,23 +69,29 @@
         components: { alert },
         methods:{ 
             handSignup () {
-                var user = {
-                            user: {
-                                account: this.account, 
-                                password: this.password,
-                                sex: this.sex
+                let passwordCheckFlag = formatCheckFun( this.account ,this.password, this.passwordCheck );
+                if ( !passwordCheckFlag ){
+                    var user = {
+                                user: {
+                                    account: this.account, 
+                                    password: this.password,
+                                    sex: this.sex
+                                }
+                            };
+                    signup(user).then(
+                        ( val ) => { 
+                            if (val.data == 'signupSuccess'){
+                                this.$router.push( {path: '/login'} );
+                            } else if (val.data == '该账户已被注册') {
+                                this.message = val.data;
+                                this.mdState = true;
                             }
-                        };
-                signup(user).then(
-                    ( val ) => { 
-                        if (val.data == 'signupSuccess'){
-                            this.$router.push( {path: '/login'} );
-                        } else if (val.data == '该账户已被注册') {
-                            this.message = val.data;
-                            this.mdState = true;
                         }
-                    }
-                )
+                    )
+                }else{
+                    this.message = passwordCheckFlag;
+                    this.mdState = true;
+                }
             },
             closeMd (){
                 this.mdState = false;
