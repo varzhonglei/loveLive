@@ -25,7 +25,7 @@
                 </li>
             </ul>
 
-            <div class='title-list' @click="toggleList('metPersons')">
+            <!--<div class='title-list' @click="toggleList('metPersons')">
                 <span>metYou</span> 
                 <div class='title-list-wrapper-svg'>
                     <svg :class='{titleSvgOpen: !isShowMetPersons }' viewBox="0 0 1024 1024"  width="3rem" height="3rem"><path d="M512 736 128 320 896 320Z" p-id="2933" data-spm-anchor-id="a313x.7781069.0.i3" class="" fill="#1296db"></path></svg>
@@ -36,7 +36,6 @@
                     <div class='avatar-wrapper'><img src="http://p6fs5mtoh.bkt.clouddn.com/image/jpg/male.jpg" alt=""></div>
                     <div class='name-and-msg-wrapper'>
                         <div class='userName-wrapper'>有过互动的人</div>
-                        <!--<div class='msg-recent-wrapper'>最近一条消息内容</div>-->
                     </div>
                 </li>
              </ul>
@@ -54,7 +53,7 @@
                         <div class='userName-wrapper'>被拉黑的人</div>
                     </div>
                 </li>
-             </ul>
+             </ul>-->
         </div>
     </div>
 </template>

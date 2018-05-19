@@ -15,7 +15,9 @@ const login = r => require.ensure([], () => r(require('../pages/login/login')), 
 const signup = r => require.ensure([], () => r(require('../pages/signup/signup')), 'login')
 const fixInfo = r => require.ensure([], () => r(require('../pages/fixInfo/fixInfo')), 'fixInfo')
 const photoAlbum = r => require.ensure([], () => r(require('../pages/photoAlbum/photoAlbum')), 'photoAlbum')
+const about = r => require.ensure([], () => r(require('../pages/about/about')), 'about')
 
+const manager = r => require.ensure([], () => r(require('../pages/manager/manager')), 'manager')
 
 var routes = [
     {
@@ -88,6 +90,14 @@ var routes = [
     {
       path: '/checkNewMsgs',
       component: checkNewMsgs
+    },
+    {
+      path: '/manager',
+      component: manager
+    },
+    {
+      path: '/about',
+      component: about
     }
   ]
 

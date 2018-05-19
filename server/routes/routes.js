@@ -5,7 +5,9 @@ var dongTai = require('../mongoose/dongTai/dongTaiModel');
 var path = require('path');
 import  squareMG  from '../controllers/squareMG'
 import  userMG  from '../controllers/userMG'
+import  qiniuMG from '../controllers/qiniuMG'
 import  checkMG  from '../middlewares/check'
+
 
 module.exports = function (app){
 //用户管理员
@@ -48,10 +50,16 @@ app.get('/signout', function (req, res){
 
 app.post('/login', userMG.login)
 
+
+app.get('/updateAvatar_getToken', qiniuMG.getToken)
+
+app.post('/updateAvatar_saveUrl', qiniuMG.saveUrl)
+
+app.post('/deleteDongtai', squareMG.deleteDongtai)
+
 app.get('*', function (req, res) {
     console.log('get a mismatched Url:' + req.originalUrl)
     res.sendFile(path.join(__dirname,'../../loveLive/index.html'))
 })
 
 }
-

@@ -129,7 +129,7 @@
                         let msgArr = getItem(uniqueKey);
                         if ( msgArr ){ //有历史聊天记录
                             msgArr.push(obj)
-                            setItem(uniqueKey, msgArr) //用对话人_id 存储的key
+                            setItem(uniqueKey, msgArr) //用对话人_id 做存储的key
                         }else{
                             setItem(uniqueKey, [obj])
                         }

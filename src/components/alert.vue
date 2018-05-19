@@ -48,15 +48,15 @@
 
 .md-modal p{
     padding: 3rem 2rem;
-    font-size: 3.4rem;
+    font-size: 18px;
     text-align: center;
 }
 
 .md-close{
     border-top: 1px solid #aaa;
     width: 100%;
-    height: 3.4rem;
-    line-height: 3.4rem;
+    height: 38px;
+    line-height: 38px;
     background: #fff;
     border-radius: 0 0 0.5rem 0.5rem;
 }

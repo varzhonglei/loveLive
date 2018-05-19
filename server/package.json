@@ -23,7 +23,9 @@
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
+    "formidable": "^1.2.1",
     "mongoose": "^5.0.3",
+    "qiniu": "^7.1.7",
     "socket.io": "^2.1.0",
     "underscore": "^1.8.3"
   },

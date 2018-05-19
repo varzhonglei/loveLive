@@ -13,7 +13,12 @@
                 <img :src="baseUserInfo.avatarUrl">
             </div>
             <div class='imgStyle'></div>
-            <div class='changeUserImg'>更换头像</div>
+            <div>
+                <div class='changeUserImg'>
+                    <span>更换头像</span>
+                    <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
+                </div>
+            </div>
         </div>
 
         <div class='baseInfo'>
@@ -82,8 +87,8 @@
 
 <script>
     import alert from '../../components/alert.vue'
-    import { fixInforReq } from '../../getData/getData.js'
-
+    import { fixInforReq, updateAvatar_getToken, updateAvatar_saveUrl } from '../../getData/getData.js'
+    import * as qiniu from 'qiniu-js'
     export default {
         data() {
             return {
@@ -134,6 +139,51 @@
                     }
                     this.mdState = true;
                 })
+            },
+            async uploadAvatar(){
+                //上传头像
+                let input = document.querySelector('.profileinfopanel-upload')
+                try{
+                    let res = await updateAvatar_getToken();
+                    if ( !res.data ) { throw new Error('上传凭证获取失败') }
+                    var uploadToken = res.data;
+                    var key = `${this.$store.state.userInfo._id}_avatar.png`;
+                    var config = {
+                        //useCdnDomain: true,是否使用cdn加速
+                        region: qiniu.region.z0
+                    };
+                    var putExtra = {
+                        fname: "",
+                        params: {},
+                        mimeType: ["image/png", "image/jpeg", "image/gif"]
+                    };
+                    var observer = {
+                        next(res){
+                            console.log(res)
+                        },
+                        error:(err) => {
+                            this.mdState = true;
+                            this.message = '上传失败';
+                            throw new Error(err)
+                        }, 
+                        complete: async (res) => {
+                            let response = await updateAvatar_saveUrl(res);
+                            console.log(response)
+                            if ( response.data.status == 0 ){
+                                this.baseUserInfo.avatarUrl = 'http://p6fs5mtoh.bkt.clouddn.com/' +res.key + '?' +Math.ceil(Math.random()*10000);
+                                this.$store.commit('FIX_USER_INFO', this.baseUserInfo);
+                            }else{
+                                throw new Error('500, 保存链接失败')
+                            }
+                        }
+                    };
+                    var observable = qiniu.upload(input.files[0], key, uploadToken, putExtra, config)
+                    var subscription = observable.subscribe(observer) // 上传开始
+                }catch (error) {
+                    this.mdState = true;
+                    this.message = '上传失败';
+                    throw new Error(error);
+                }
             }
         },
         directives:{
@@ -242,6 +292,17 @@ h2{
     margin-bottom: 2rem;
     z-index: 101;
     font-size: 3.4rem;
+    background: rgba(200,200,240,0.5);
+    border-radius: 10px;
+}
+
+.profileinfopanel-upload{
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
 }
 
 

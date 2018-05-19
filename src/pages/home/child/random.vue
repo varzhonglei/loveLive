@@ -5,7 +5,7 @@
             <br/>您的<span>有缘人</span>如下
         </div>
         <div class="random-title" v-else-if='this.randomTitle < 0.5'>
-            你造么，在<span>异世界</span>里
+            你造么，在<span>平行世界</span>里
             <br/><span>下雨天</span>
             <br/>你们两个一起等候回家的<span>末班车</span>
         </div>
@@ -20,7 +20,7 @@
             <br/>这可是<span>缘分彩蛋</span>中的
             <br/><span class='ssr'>ssr</span>
         </div>
-        <div class="random-title" v-else>您<span>母亲</span><br/>又给你物色了<span>相亲对象</span></div>
+        <div class="random-title" v-else>您<span>的好朋友</span><br/>又给你物色了<span>相亲对象</span></div>
         <div class='random-content' @click='openDetail()'>
             <div class='user-head-img-wrap'>
                 <img :src="theUserInfo.avatarUrl" alt="用户头像">

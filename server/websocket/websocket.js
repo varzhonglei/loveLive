@@ -13,8 +13,8 @@ function websocket (server){
             socket.room = obj.user_id;
             rooms[obj.user_id] = obj.userName;
             socket.join(obj.user_id);
-            console.log( obj.userName, '上线了'); 
-            console.log('所有在线人：', rooms, '\n') 
+            console.log( obj.userName, 'being online'); 
+            console.log('all online：', rooms, '\n') 
         });
 
         //发送消息步骤：1存储消息， 2发送消息， 
@@ -66,9 +66,9 @@ function websocket (server){
         } );
 
         socket.on('disconnect', function(reason){
-            console.log( rooms[socket.room],'离线了');
+            console.log( rooms[socket.room],'being offline');
             delete rooms[socket.room];
-            console.log('所有在线人：', rooms, '\n') 
+            console.log('all online：', rooms, '\n') 
         })
     });
 }

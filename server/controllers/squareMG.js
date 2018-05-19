@@ -112,6 +112,23 @@ class SquareMGConstructor {
             })
         }
     }
+    async deleteDongtai(req, res){
+        let user_id = req.session.user_id;
+        let dongTai_id = req.body._id;
+        let admin = await UserModel.findOne({_id: user_id});
+        if ( admin && admin.account == 'admin' ) {
+           await dongTai.remove({_id: dongTai_id});
+           res.send({
+               status: 0,
+               message: '删除动态成功'
+           })
+        }else{
+            res.send({
+                status: 1,
+                message: '无权限'
+            })
+        }
+    }
 }
 
 var squareMG = new SquareMGConstructor();

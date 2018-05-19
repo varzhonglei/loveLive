@@ -47,6 +47,13 @@ export const searchUser = ( searchKey ) => myAxios.get( `searchUser/?searchKey=$
 
 export const getUsersByRandom = () => myAxios.get('getUsersByRandom')
 
+//更新头像
+export const updateAvatar_getToken = ( data ) => myAxios.get('updateAvatar_getToken')
+
+export const updateAvatar_saveUrl = ( data ) => myAxios.post('updateAvatar_saveUrl', data)
+
+//管理员删除动态
+export const deleteDongtai = ( data ) => myAxios.post('deleteDongtai', data)
 
 
 

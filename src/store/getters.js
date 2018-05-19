@@ -4,6 +4,7 @@ export default {
     getOwnId: state => state.userInfo && state.userInfo._id,
     getOwnAvatarUrl: state => state.userInfo && state.userInfo.avatarUrl,
     getOwnUserName: state => state.userInfo && state.userInfo.userName,
+    getOwnAccount: state => state.userInfo && state.userInfo.account,
     getTheOneMsg: (state) => (from_id) => {
         return state.newMsgs.filter(( item, index, arr )=>{
                                 return item.from === from_id
