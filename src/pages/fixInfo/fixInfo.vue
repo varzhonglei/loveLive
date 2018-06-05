@@ -170,7 +170,7 @@
                             let response = await updateAvatar_saveUrl(res);
                             console.log(response)
                             if ( response.data.status == 0 ){
-                                this.baseUserInfo.avatarUrl = 'http://p6fs5mtoh.bkt.clouddn.com/' +res.key + '?' +Math.ceil(Math.random()*10000);
+                                this.baseUserInfo.avatarUrl = 'http://p6fs5mtoh.bkt.clouddn.com/' +res.key + '?' + Math.ceil(Math.random()*10000);
                                 this.$store.commit('FIX_USER_INFO', this.baseUserInfo);
                             }else{
                                 throw new Error('500, 保存链接失败')
