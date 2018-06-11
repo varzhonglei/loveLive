@@ -146,6 +146,7 @@
                 try{
                     let res = await updateAvatar_getToken();
                     if ( !res.data ) { throw new Error('上传凭证获取失败') }
+                    console.log('token: ', res.data)
                     var uploadToken = res.data;
                     var key = `${this.$store.state.userInfo._id}_avatar.png`;
                     var config = {
@@ -168,7 +169,7 @@
                         }, 
                         complete: async (res) => {
                             let response = await updateAvatar_saveUrl(res);
-                            console.log(response)
+                            console.log('finished updateAvatar',response)
                             if ( response.data.status == 0 ){
                                 this.baseUserInfo.avatarUrl = 'http://p6fs5mtoh.bkt.clouddn.com/' +res.key + '?' + Math.ceil(Math.random()*10000);
                                 this.$store.commit('FIX_USER_INFO', this.baseUserInfo);
